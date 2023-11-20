@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Donation Icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beri Donasi"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextNama"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nama"
+        android:background="#E0E0E0"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/editTextDoa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Doa"
+        android:background="#E0E0E0"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNama"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/editTextNominal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nominal Donasi"
+        android:inputType="numberDecimal"
+        android:background="#E0E0E0"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDoa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"/>
+
+    <Button
+        android:id="@+id/buttonDonasi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Beri Donasi"
+        android:textColor="#FFFFFF"
+        android:background="#4CAF50"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNominal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
