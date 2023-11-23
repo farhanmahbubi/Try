@@ -26,6 +26,7 @@ android {
             )
         }
     }
+
     buildFeatures {
         viewBinding = true
     }
@@ -51,4 +52,9 @@ dependencies {
     //volley
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.midtrans:uikit:2.0.0-SANDBOX")
+
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+    implementation("androidx.compose.ui:ui-android:1.5.4")
+
 }

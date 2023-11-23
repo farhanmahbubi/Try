@@ -1,78 +1,150 @@
 package com.example.atry.payments
 
-
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.atry.databinding.ActivityDetailDonasiBinding
-import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
-import com.midtrans.sdk.corekit.core.MidtransSDK
-import com.midtrans.sdk.corekit.core.TransactionRequest
-import com.midtrans.sdk.corekit.core.themes.CustomColorTheme
-import com.midtrans.sdk.corekit.models.BillingAddress
-import com.midtrans.sdk.corekit.models.CustomerDetails
-import com.midtrans.sdk.corekit.models.ItemDetails
-import com.midtrans.sdk.corekit.models.ShippingAddress
-import com.midtrans.sdk.uikit.SdkUIFlowBuilder
+import com.midtrans.sdk.corekit.core.PaymentMethod
+import com.midtrans.sdk.uikit.api.model.SnapTransactionDetail
+import com.midtrans.sdk.uikit.api.model.TransactionResult
+import com.midtrans.sdk.uikit.external.UiKitApi
+import com.midtrans.sdk.uikit.internal.util.UiKitConstants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.IOException
+import okhttp3.*
+import java.util.UUID
 
 class PaymentsMidtrans : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailDonasiBinding
+    private lateinit var mbinding: ActivityDetailDonasiBinding
+    var random = "NH-${UUID.randomUUID()}".substring(0, 8)
+    val id_order = initTransactionDetails().orderId
+
+    val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result?.resultCode == RESULT_OK) {
+                result.data?.let {
+                    val transactionResult =
+                        it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)
+                    Toast.makeText(this, "${transactionResult?.transactionId}", Toast.LENGTH_LONG)
+                        .show()
+                    Toast.makeText(this, id_order, Toast.LENGTH_LONG)
+                        .show()
+                    checkOrderStatus(id_order)
+                }
+            }
+        }
+
+    private var customerDetails = com.midtrans.sdk.uikit.api.model.CustomerDetails(
+        firstName = "name",
+        customerIdentifier = "mail@mail.com",
+        email = "mail@mail.com",
+        phone = "085310102020"
+    )
+
+    private var itemDetails = listOf(
+        com.midtrans.sdk.uikit.api.model.ItemDetails(
+            "DNS-${UUID.randomUUID()}",
+            50000.00,
+            1,
+            "DONASI"
+        )
+    )
+
+    private fun initTransactionDetails(): SnapTransactionDetail {
+        return SnapTransactionDetail(
+            orderId = random,
+            grossAmount = 50000.00
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailDonasiBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mbinding = ActivityDetailDonasiBinding.inflate(layoutInflater)
+        setContentView(mbinding.root)
+        buildUiKit()
 
-        // Initialize Midtrans SDK
-        SdkUIFlowBuilder.init()
-            .setClientKey("SB-Mid-client-Cus_lO_5JXzHSIcU")
-            .setContext(applicationContext)
-            .setTransactionFinishedCallback(TransactionFinishedCallback { result ->
-                //logic
-            })
-            .setMerchantBaseUrl("http://192.168.1.12/api-mysql-main/midtrans.php/")  // Ensure the trailing slash
-            .enableLog(true)
-            .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-            .setLanguage("id")
-            .buildSDK()
-
-        binding.buttonDonasi.setOnClickListener {
-            val nama = binding.editTextNama.text.toString()
-            val doa = binding.editTextDoa.text.toString()
-            val donasi = binding.editTextNominal.text.toString()
-
-            val transactionRequest = TransactionRequest("NH-"+System.currentTimeMillis()+ "", donasi.toDouble())
-            val detail = ItemDetails("Donasi", donasi.toDouble(), 1, "LKSA NH")
-            val itemDetails = ArrayList<ItemDetails>()
-            itemDetails.add(detail)
-
-            //uiKitDetails(transactionRequest)
-            transactionRequest.itemDetails = itemDetails
-
-            MidtransSDK.getInstance().transactionRequest = transactionRequest
-            MidtransSDK.getInstance().startPaymentUiFlow(this)
+        mbinding.buttonDonasi.setOnClickListener {
+            UiKitApi.getDefaultInstance().startPaymentUiFlow(
+                activity = this@PaymentsMidtrans,
+                launcher = launcher,
+                transactionDetails = initTransactionDetails(),
+                customerDetails = customerDetails,
+                itemDetails = itemDetails,
+                paymentMethod = PaymentMethod.BANK_TRANSFER
+            )
         }
-
     }
 
-        private fun uiKitDetails(transactionRequest: TransactionRequest) { // nanti jika menambahkan nama yang ambil daroii sharedpreference
-        val customerDetails = CustomerDetails()                             //taruh disini juga part 10
-        customerDetails.customerIdentifier = "Supriyanto"
-        customerDetails.phone = "082345678999"
-        customerDetails.firstName = "Supri"
-        customerDetails.lastName = "Yanto"
-        customerDetails.email = "supriyanto6543@gmail.com"
-        val shippingAddress = ShippingAddress()
-        shippingAddress.address = "Baturan, Gantiwarno"
-        shippingAddress.city = "Klaten"
-        shippingAddress.postalCode = "51193"
-        customerDetails.shippingAddress = shippingAddress
-        val billingAddress = BillingAddress()
-        billingAddress.address = "Baturan, Gantiwarno"
-        billingAddress.city = "Klaten"
-        billingAddress.postalCode = "51193"
-        customerDetails.billingAddress = billingAddress
+    private fun buildUiKit() {
+        UiKitApi.Builder()
+            .withContext(this.applicationContext)
+            .withMerchantUrl("http://192.168.1.12/api-mysql-main/midtrans.php/")
+            .withMerchantClientKey("SB-Mid-client-Cus_lO_5JXzHSIcU")
+            .enableLog(true)
+            .withColorTheme(
+                com.midtrans.sdk.uikit.api.model.CustomColorTheme(
+                    "#FFE51255",
+                    "#B61548",
+                    "#FFE51255"
+                )
+            )
+            .build()
+        setLocaleNew("id")
+        uiKitCustomSetting()
+    }
 
-        transactionRequest.customerDetails = customerDetails
+    private fun setLocaleNew(languageCode: String?) {
+        val locales = LocaleListCompat.forLanguageTags(languageCode)
+        AppCompatDelegate.setApplicationLocales(locales)
+    }
+
+    private fun uiKitCustomSetting() {
+        val uIKitCustomSetting = UiKitApi.getDefaultInstance().uiKitSetting
+        uIKitCustomSetting.saveCardChecked = true
+    }
+
+    private fun checkOrderStatus(orderId: String) {
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url("https://api.sandbox.midtrans.com/v2/$orderId/status")
+            .get()
+            .addHeader("accept", "application/json")
+            .addHeader("authorization", "Basic U0ItTWlkLXNlcnZlci1TMUdwX0o3b2Z0aWJ0dXNPWTdqUjhKalA6")
+            .build()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    runOnUiThread {
+                        Toast.makeText(this@PaymentsMidtrans, responseBody, Toast.LENGTH_LONG).show()
+//                        val intent = Intent(this@PaymentsMidtrans, DonasiActivity::class.java)
+//                        startActivity(intent)
+                        //code
+                    }
+                } else {
+                    runOnUiThread {
+                        val errorMessage = "Error: ${response.code} ${response.message}"
+                        Toast.makeText(this@PaymentsMidtrans, errorMessage, Toast.LENGTH_LONG).show()
+                    }
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                runOnUiThread {
+                    val errorMessage = "Error: ${e.message}"
+                    Toast.makeText(this@PaymentsMidtrans, errorMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }

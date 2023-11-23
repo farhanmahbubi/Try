@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Try</string>
+    <string name="layanan">
+        Layanan Hubungi :
+        \n0812-1732-9234
+    </string>
 </resources>

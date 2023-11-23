@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/sampulprofil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_profile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/fotoprofil"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/baseline_circle_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/sampulprofil"
+                    app:layout_constraintEnd_toEndOf="@+id/sampulprofil"
+                    app:layout_constraintStart_toStartOf="@+id/sampulprofil"
+                    app:layout_constraintTop_toBottomOf="@+id/sampulprofil" />
+
+                <TextView
+                    android:id="@+id/nama_pengguna"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="NAMA PENGGUNA"
+                    android:textSize="25sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fotoprofil" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/kotak_nama_pengguna"
+                    android:layout_width="370dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button"
+                    app:layout_constraintTop_toBottomOf="@+id/nama_pengguna"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="EMAIL"
+                    android:textSize="25sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/kotak_nama_pengguna" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/kotak_email"
+                    android:layout_width="370dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button"
+                    app:layout_constraintTop_toBottomOf="@+id/email"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/nomor_telepon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="NOMOR TELEPON"
+                    android:textSize="25sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/kotak_email" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/kotak_nomor_telepon"
+                    android:layout_width="370dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button"
+                    app:layout_constraintTop_toBottomOf="@+id/nomor_telepon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/kata_sandi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="KATA SANDI"
+                    android:textSize="25sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/kotak_nomor_telepon" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/kotak_kata_sandi"
+                    android:layout_width="370dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button"
+                    app:layout_constraintTop_toBottomOf="@+id/kata_sandi"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/tombol_keluar"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="KELUAR"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.516"
+                    app:layout_constraintTop_toBottomOf="@id/kotak_kata_sandi" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/tombol_edit"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:text="EDIT"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.516"
+                    app:layout_constraintTop_toBottomOf="@id/kotak_kata_sandi" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="@string/layanan"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/tombol_keluar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
