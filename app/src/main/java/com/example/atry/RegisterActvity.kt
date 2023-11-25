@@ -20,7 +20,7 @@ class RegisterActvity : ComponentActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val registerUrl = "http://192.168.1.12/api-mysql-main/api-register.php"
+        val registerUrl = "http://192.168.1.19/api-mysql-main/api-register.php"
 
         binding.buttonRegister.setOnClickListener {
             if (binding.editTextUsername.text.toString().isEmpty() || binding.editTextEmail.text.toString().isEmpty() || binding.editTextPassword.text.toString().isEmpty() || binding.editTextNoHp.text.toString().isEmpty()) {
