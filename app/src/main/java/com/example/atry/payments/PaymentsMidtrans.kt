@@ -187,6 +187,9 @@ class PaymentsMidtrans : AppCompatActivity() {
         // Example code (modify it based on your server-side implementation)
         val url = "http://192.168.1.19/api-mysql-main/api-insertDonasi.php"
 
+        val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
+        val idDonatur = sharedPreferences.getString("id_donatur", "")
+
         val request: RequestQueue = Volley.newRequestQueue(applicationContext)
 
         val stringRequest = object : StringRequest(
@@ -217,6 +220,7 @@ class PaymentsMidtrans : AppCompatActivity() {
                 params["gross_amount"] = jsonObject.getDouble("gross_amount").toString()
                 params["order_id"] = jsonObject.getString("order_id")
                 params["settlement_time"] = jsonObject.getString("settlement_time")
+                params["id_donatur"] = idDonatur ?: ""
                 return params
             }
         }

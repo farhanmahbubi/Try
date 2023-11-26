@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.atry.databinding.ActivityLoginBinding
@@ -44,6 +43,7 @@ class LoginActivity : ComponentActivity() {
                         if (status == "success") {
                             val idDonatur = jsonResponse.getString("id_donatur")
                             saveID(idDonatur)
+
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
