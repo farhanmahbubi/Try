@@ -44,6 +44,10 @@
             android:name=".payments.PaymentsMidtrans"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".alokasi.AlokasiActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

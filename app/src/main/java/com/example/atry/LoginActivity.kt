@@ -35,14 +35,43 @@ class LoginActivity : ComponentActivity() {
 
             val stringRequest = StringRequest(
                 Request.Method.GET,
-                "$url?email=${URLEncoder.encode(binding.editTextEmail.text.toString(), "UTF-8")}&password=${URLEncoder.encode(binding.editTextPassword.text.toString(), "UTF-8")}",
+                "$url?email=${
+                    URLEncoder.encode(
+                        binding.editTextEmail.text.toString(),
+                        "UTF-8"
+                    )
+                }&password=${URLEncoder.encode(binding.editTextPassword.text.toString(), "UTF-8")}",
                 { response ->
                     try {
+                        Log.d("JSONResponse", response)
+
                         val jsonResponse = JSONObject(response)
                         val status = jsonResponse.getString("status")
                         if (status == "success") {
-                            val idDonatur = jsonResponse.getString("id_donatur")
-                            saveID(idDonatur)
+                            val idDonaturObject = jsonResponse.getJSONObject("id_donatur")
+
+                            // Periksa apakah kunci "nama" ada dalam objek "id_donatur"
+                            val namaDonatur = if (idDonaturObject.has("nama")) {
+                                idDonaturObject.getString("nama")
+                            } else {
+                                // Handle jika kunci "nama" tidak ada
+                                Log.e("JSONError", "Kunci 'nama' tidak ditemukan dalam objek 'id_donatur'")
+                                "NamaDefault"
+                            }
+
+                            // Periksa apakah kunci "email" ada dalam objek "id_donatur"
+                            val emailDonatur = if (idDonaturObject.has("email")) {
+                                idDonaturObject.getString("email")
+                            } else {
+                                // Handle jika kunci "email" tidak ada
+                                Log.e("JSONError", "Kunci 'email' tidak ditemukan dalam objek 'id_donatur'")
+                                "EmailDefault"
+                            }
+
+                            val idDonatur = idDonaturObject.getString("id_donatur")
+                            val noHpDonatur = idDonaturObject.getString("no_hp")
+
+                            saveID(idDonatur, namaDonatur, emailDonatur, noHpDonatur)
 
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
@@ -59,12 +88,23 @@ class LoginActivity : ComponentActivity() {
             )
             request.add(stringRequest)
         }
+
     }
 
-    private fun saveID(idDonatur: String) {
+    private fun saveID(
+        idDonatur: String,
+        namaDonatur: String,
+        emailDonatur: String,
+        noHpDonatur: String
+    ) {
         val preferences: SharedPreferences = getSharedPreferences("donatur_prefs", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferences.edit()
+
         editor.putString("id_donatur", idDonatur)
+        editor.putString("nama", namaDonatur)
+        editor.putString("email", emailDonatur)
+        editor.putString("no_hp", noHpDonatur)
+
         editor.apply()
     }
 }

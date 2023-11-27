@@ -44,19 +44,6 @@
 
             </androidx.cardview.widget.CardView>
 
-<!--            <TextView-->
-<!--                android:id="@+id/itemContent"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="15dp"-->
-<!--                android:layout_marginBottom="15dp"-->
-<!--                android:fontFamily="@font/montserrat_medium"-->
-<!--                android:text="Link"-->
-<!--                android:textSize="12sp"-->
-<!--                android:textStyle="bold"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/cardView" />-->
-
             <TextView
                 android:id="@+id/itemContent"
                 android:layout_width="wrap_content"

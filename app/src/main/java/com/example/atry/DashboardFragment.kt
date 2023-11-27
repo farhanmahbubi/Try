@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.atry.alokasi.AlokasiActivity
 import com.example.atry.databinding.FragmentDashboardBinding
 import com.example.atry.donasi.DonasiActivity
 
@@ -25,6 +26,11 @@ class DashboardFragment : Fragment() {
 
         binding.btnpindah.setOnClickListener {
             val intent = Intent(requireContext(), DonasiActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnpindah2.setOnClickListener {
+            val intent = Intent(requireContext(), AlokasiActivity::class.java)
             startActivity(intent)
         }
     }

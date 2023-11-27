@@ -57,4 +57,6 @@ dependencies {
 
     implementation("androidx.compose.ui:ui-android:1.5.4")
 
+    implementation ("com.github.bumptech.glide:glide:4.15.0")
+
 }
